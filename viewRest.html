@@ -70,21 +70,94 @@
 //This variable will assign current url and its current port
             var currentURL = window.location.origin;
 
+
+            //This assigns a variable with the current url plus its port
+            var currentURL = window.location.origin;
+            console.log(currentURL);
+
             $.ajax({
                 url: currentURL + "/api/makeReservation",
-                method:"GET"
+                method: "GET"
+            }).done(function(tableData) {
+                console.log("------------------------------------");
+				console.log("URL: " + currentURL + "/api/tables");
+				console.log("------------------------------------");
 
-            }).then(function(tableData){
-console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-console.log("Url: "+currentURL+ "/api/tables");
-console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+                for (var i = 0 ; i < tableData.length; i++){
 
-            })
+                    //HTML WELL section which adds the table content
+                    var tableSection = $("<div>");
+					tableSection.addClass('well');
+					tableSection.attr('id', 'tableWell-' + i+1)
+					$('#tableSection').append(tableSection);
+
+                    var tableNumber = i + 1;
+                    
+                    //Then display
+                    $("#tableWell-"+ i+1).append('<h2><span class="label label-primary">' + tableNumber + "</span> | " + tableData[i].customerID + "</h2>");
+                }
+            });
         }
+
+
+        function runWaitListQuery() {
+
+            var currentURL = window.location.origin;
+
+            $.ajax({
+                url: currentURL +  "/api/waitlist",
+                method: "GET"
+            }).done(function(waitlistData) {
+                // Here we are logging the URL so we have access to it for troubleshooting
+				console.log("------------------------------------");
+				console.log("URL: " + currentURL + "/api/waitlist");
+				console.log("------------------------------------");
+
+				// Here we then log the NYTData to console, where it will show up as an object.
+				console.log(waitlistData);
+				console.log("------------------------------------")
+
+                
+                for (var i=0; i<waitlistData.length; i++){
+
+                    //Create HTML Well 
+                    var waitlistSection = $("<div>");
+                    waitlistSection.addClass('well');
+                    waitlistSection.attr('id', 'waitlistWell-' + i +1);
+                    $('#waitlistSection').append(waitlistSection);
+
+                    var tableNumber = i + 1;
+
+                    $("#waitlistWell-"+ i+1).append('<h2><span class="label label-primary">' + tableNumber + "</span> | " + waitlistData[i].customerID + "</h2>");
+                }
+
+            });
+
+
+        function clearTable(){
+
+var currentURL = window.location.origin;
+$.ajax({url: currentURL + "/api/clear", method: "POST"})
+
+}
+
+$("#clear").on('click', function(){
+alert("Clearing...");
+clearTable();
+
+// Refresh the page after data is cleared
+location.reload();
+})
+
+
+// Run 
+runTableQuery();
+runWaitListQuery();
+
 
 	
 
-    </script>
+ </script>
             
 
     
