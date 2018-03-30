@@ -1,3 +1,4 @@
+
 var express = require("express");
 var bodyParser =require("body-parser")
 var path = require("path")
@@ -15,11 +16,9 @@ var waitlist = [];
 app.get("/", function(req, res) {
     res.send("Listening at PORT 3000");
 });
-app.get("/makeReservation", function(req, res) {
-  res.sendFile(path.join(__dirname, "makeReservation.html"));
-});
 
-app.get("/api/:table?", function(req, res) {
+count = 0;
+app.get("/api/:tables?", function(req, res) {
     var chosen = req.params.tables;
   
     if (chosen) {
@@ -51,22 +50,6 @@ app.get("/api/:waitlist?", function(req, res) {
     return res.json(waitlist);
 });
 
-count = 0;
-app.post("/api/new", function(req, res) {
-    count++;
-    var newtable = req.body;
-    console.log(newtable);
-    
-    if (count < 6){
-        tables.push(newtable);
-        res.json(newtable);
-    }
-    else {
-        waitlist.push(newtable)
-        res.json(newtable);
-    }
-  });
-  
 
 app.listen(PORT, function() {
   console.log("Server listening on: http://localhost:" + PORT);
