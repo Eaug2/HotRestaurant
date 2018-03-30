@@ -1,0 +1,36 @@
+<script type="text/javascript">
+    function runTableQuery() {
+
+        // Create a variable for the current URL that including the port information (.origin)
+        var currentURL = window.location.origin;
+
+        // 
+        $ajax({url: currentURL + "/api/table", method: "GET"})
+            .done(function(tableData) {
+                console.log("-------------------------------------");
+                console.log("URL: " + currentURL + "/api/table");
+                console.log("-------------------------------------");
+
+                // Log the tabledata
+                console.log(tableData);
+                console.log("-------------------------------------");
+
+                for (var i = 0; i < tableData.length; i++) {
+                    var tableSection = $("<div>");
+                    tableSection.addClass("well");
+                    tableSection.attr("id", "tableWell-" = i+1);
+                    $("#tableSection").append(tableSection);
+
+                    var tableNumber = i + 1;
+
+                    $("#tableWell-" + i+1).append('<h2><span class="label label-primary">') + tableNumber + 
+                }
+
+            });
+
+            
+
+
+    }
+
+</script>
